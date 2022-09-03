@@ -1,0 +1,371 @@
+$box-shadow: rgba(0, 0, 0, 0.25) 0 25px 50px -12px;
+$accent-color: #ff4081;
+
+@mixin background {
+  background-color: #FFDEE9;
+  background-image: linear-gradient(135deg, #ffeaf1 0%, #B5FFFC 100%);
+}
+
+@mixin slide-down-animation($index) {
+  $delay: 700ms * $index;
+  margin-top: -90px;
+  z-index: 5 - $index;
+  opacity: 0;
+  animation: slide-down 1.5s 1s ease-in-out forwards;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    margin-top: -90px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 1rem;
+  }
+}
+
+#home {
+  background-color: #efefef;
+  color: rgba(0, 0, 0, 0.8);
+  min-height: 100vh;
+
+  .container {
+    width: min(100vw, 1000px);
+    margin: 0 auto;
+
+    nav {
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: flex-end;
+      box-sizing: border-box;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas:
+        "box-1 box-2"
+        "box-1 box-3";
+
+      .tile {
+        box-sizing: border-box;
+        height: 90px;
+        width: 80%;
+        padding: 2rem;
+        font-size: x-large;
+        box-shadow: $box-shadow;
+        border-radius: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #FDFDFDFF;
+        transition: 500ms ease-out;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        &:nth-child(2) {
+          @include slide-down-animation(1);
+        }
+
+        &:nth-child(3) {
+          @include slide-down-animation(2);
+        }
+
+        &:nth-child(4) {
+          @include slide-down-animation(3);
+        }
+
+        &:nth-child(5) {
+          @include slide-down-animation(4);
+        }
+      }
+
+      .box-1 {
+        height: 600px;
+        padding: 0 2rem;
+        grid-area: box-1;
+
+        .name {
+          padding: 2rem 0;
+          opacity: 0;
+          text-align: center;
+          font-size: x-large;
+          font-weight: bold;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          position: relative;
+          z-index: 5;
+          animation: fade-in 1s ease-out forwards;
+
+          p {
+            margin: 0 auto;
+          }
+        }
+
+        .dateOfBirth {
+          flex-direction: row-reverse;
+
+          .baby {
+            img {
+              height: 75px;
+            }
+          }
+        }
+      }
+
+      .box-2 {
+        height: 250px;
+        grid-area: box-2;
+
+        .cards {
+          height: 350px;
+          width: 100%;
+          position: relative;
+
+          .card {
+            height: 215px;
+            width: 337px;
+            border-radius: 1rem;
+            padding: 1rem;
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform-origin: top right;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: rgba(17, 12, 46, 0.15) 0 48px 100px 0;
+            cursor: pointer;
+            transform: translate(-50%, -50%) perspective(2000px) scale(0.8) rotateX(60deg) rotateY(0deg) rotateZ(15deg);
+            transition: 1s ease-in-out;
+            background-color: #FFDEE9;
+            background-image: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
+
+            .header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .name {
+                font-size: x-large;
+              }
+            }
+
+            .number {
+              margin: 1.5rem 0;
+              display: flex;
+              gap: 1rem;
+              font-size: xx-large;
+              font-family: monospace;
+            }
+
+            &.aadhar-card {
+              z-index: 3;
+              animation: aadhar-card-animation 2s forwards;
+
+              .logo {
+                img {
+                  height: 100px;
+                }
+              }
+            }
+
+            &.pan-card {
+              z-index: 2;
+
+              .logo {
+                img {
+                  height: 140px;
+                }
+              }
+            }
+
+            &.bank-card {
+              z-index: 1;
+              animation: bank-card-animation 2s forwards;
+
+              .logo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: large;
+                gap: 0.25rem;
+
+                img {
+                  height: 120px;
+                }
+              }
+            }
+
+            &:hover {
+              transform: translate(-50%, -50%) perspective(2000px) scale(0.8) rotateX(35deg) rotateY(0deg) rotateZ(0deg);
+            }
+
+            @keyframes aadhar-card-animation {
+              from {
+                top: 75%;
+              }
+              to {
+                top: 60%;
+              }
+            }
+
+            @keyframes bank-card-animation {
+              from {
+                top: 75%;
+              }
+              to {
+                top: 90%;
+              }
+            }
+          }
+        }
+      }
+
+      .box-3 {
+        grid-area: box-3;
+
+        .process-pension {
+          margin: 0 auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+          width: 300px;
+          padding: 2rem 0;
+          font-size: x-large;
+          border-radius: 1rem;
+          box-shadow: $box-shadow;
+          background-color: #4158D0;
+          background-image: linear-gradient(45deg, #4158D0 0%, #C850C0 5%, $accent-color 100%);
+          background-size: 200% 200%;
+          background-position: 0 100%;
+          color: white;
+          transition: 300ms ease-in-out;
+          opacity: 0;
+          animation: fade-in 1s 2s forwards;
+          cursor: pointer;
+
+          &:hover {
+            background-position: 100% 0;
+          }
+
+          &:active, &:focus {
+            transform: scale(0.9);
+          }
+
+          .pension-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.25rem;
+            position: relative;
+            width: 0;
+            opacity: 0;
+
+            div {
+              height: 10px;
+              width: 10px;
+              border-radius: 50%;
+              background-color: #D9AFD9;
+              background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+              position: relative;
+
+              @for $i from 1 to 4 {
+                &:nth-child(#{$i}) {
+                  animation: bounce 900ms #{$i * 100}ms forwards infinite;
+                }
+              }
+
+              @keyframes bounce {
+                0%, 100% {
+                  top: 0;
+                }
+                25% {
+                  top: 5px;
+                }
+                50% {
+                  top: -15px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.pension-details {
+  grid-template-columns: repeat(2, 1fr);
+  position: absolute;
+  bottom: -100%;
+  left: calc(50% + 1rem);
+  height: 150px;
+  width: 400px;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  background-color: white;
+  transition: 500ms ease-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .pension-amount {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 24px;
+
+    .title {
+      width: max-content;
+      padding: 0 2rem 2.5rem 0;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: -15px;
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        background-color: $accent-color;
+        top: 2px;
+        z-index: 2;
+      }
+
+      &:first-child::after {
+        content: "";
+        position: absolute;
+        height: 65px;
+        width: 5px;
+        background: $accent-color;
+        left: -10px;
+        top: 5px;
+        z-index: 1;
+        text-shadow: 1px 5px 7px rgba(150, 150, 150, 1);
+      }
+    }
+
+    .value {
+      color: rgba(0, 0, 0, 0.7);
+      font-size: 28px;
+      font-weight: bold;
+    }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

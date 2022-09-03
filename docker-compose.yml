@@ -1,0 +1,110 @@
+version: "2.1"
+
+services:
+  service-registry:
+    build: ./service-registry
+    ports:
+      - 8761:8761
+    restart: on-failure
+    healthcheck:
+      test: "curl --fail --silent localhost:8761/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+  pensioner-detail:
+    build: ./pensioner-detail
+    environment:
+      - PROFILE=docker
+    ports:
+      - 8000:8000
+    restart: on-failure
+    depends_on:
+      service-registry:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8000/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+  authoriation:
+    build: ./authorization
+    environment:
+      - PROFILE=docker
+    ports:
+      - 8002:8002
+    restart: on-failure
+    depends_on:
+      service-registry:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8002/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+  process-pension:
+    build: ./process-pension
+    environment:
+      - PROFILE=docker
+    ports:
+      - 8001:8001
+    restart: on-failure
+    depends_on:
+      service-registry:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8001/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+  api-gateway:
+    build: ./api-gateway
+    environment:
+      - PROFILE=docker
+    ports:
+      - 8181:8181
+    restart: on-failure
+    depends_on:
+      service-registry:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8001/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+  portal:
+    build: ./pension-management-portal
+    ports:
+      - 80:80
+    restart: on-failure
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+  sonarqube:
+    image: sonarqube:lts
+    depends_on:
+      - db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    ports:
+      - "9000:9000"
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  postgresql:
+  postgresql_data:

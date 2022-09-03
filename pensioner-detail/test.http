@@ -1,0 +1,27 @@
+### Post
+POST http://localhost:8000/pensionerDetail/pensioner
+Content-Type: application/json
+
+{
+  "aadharNumber": 996914160256,
+  "name": "Shuktika Mahanty",
+  "dateOfBirth": "1950-02-15",
+  "pan": "BHKPC9432Q",
+  "salaryEarned": 1000000,
+  "allowances": 25000,
+  "pensionType": "family",
+  "bankDetails": {
+    "bankName": "HSBC",
+    "accountNumber": 100012315123512,
+    "bankType": "private"
+  }
+}
+
+### Get pension details from aadhar number
+GET http://localhost:7000/pensionerDetail/pensionDetailsByAadhar?aadharNumber=234151234234
+Accept: application/json
+
+
+### Get pensioner details from wrong aadhar number
+GET http://localhost:8000/pensionerDetail/pensionDetailsByAadhar?aadharNumber=123415123431
+Accept: application/json

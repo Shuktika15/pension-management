@@ -1,0 +1,1 @@
+mvn sonar:sonar -Dsonar.projectKey=pensioner-details -Dsonar.host.url=http://localhost:9000 -Dsonar.login=85bd5e1e3f41aab29633629dfbb50505bd9845d8

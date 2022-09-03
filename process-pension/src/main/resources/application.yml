@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: PROCESS-PENSION
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+server:
+  port: ${PORT:7001}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+pension-processing:
+  bank-charges:
+    private: 550
+    public: 500
+  pension:
+    self: 0.8
+    family: 0.5
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:7761/eureka
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://service-registry:8761/eureka
+
+---
+
+spring:
+  profiles:
+    active: ${PROFILE:dev}
+

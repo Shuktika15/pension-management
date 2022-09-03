@@ -1,0 +1,119 @@
+### Post
+POST http://localhost:7002/authorization/login
+Content-Type: application/x-www-form-urlencoded
+
+aadharNumber=234151234234&password=Jhinuk@151
+
+### Get
+GET http://localhost:8002/authorization/authenticate
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyMzQxNTEyMzQyMzQiLCJleHAiOjE2NjEzMjU0NjUsImlhdCI6MTY2MTMyMzY2NX0.9mpuU8_QWo_xHf39px1iOwjV5xjKGaHJwFmZ9nsm_d3BFS5RwoL5-3yng5pIZXWK1Pfj6rPGdb3VCZ1POPReaQ
+
+### Get /
+GET http://localhost:8002
+
+### Health check
+GET http://localhost:8002/actuator/health
+
+### AWS Login Test
+POST http://shuktika-authorization-lb1-508349742.ap-south-1.elb.amazonaws.com/authorization/login
+Content-Type: application/x-www-form-urlencoded
+
+aadharNumber=234151234234&password=Jhinuk@151
+
+### AWS Authentiction Test
+GET http://shuktika-authorization-lb1-508349742.ap-south-1.elb.amazonaws.com/authorization/authenticate
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyMzQxNTEyMzQyMzQiLCJleHAiOjE2NjEwOTM3ODUsImlhdCI6MTY2MTA5MTk4NX0.uwUU3Ju4EjwbgsnDmdVdXUCNR8nowqWn_ssl0dB8Xs4uH-fc6aSt7aX0ZddkCmjJ4XMERoOz_g3nBozkDv92Ow
+
+### AWS Health check Test
+GET http://shuktika-authorization-lb1-508349742.ap-south-1.elb.amazonaws.com/actuator/health
+
+### Post Pensioners
+POST http://localhost:8002/authorization/pensioners
+Content-Type: application/json
+Accept: application/json
+
+[
+  {
+    "aadharNumber": 234151234234,
+    "password": "Jhinuk@151"
+  },
+  {
+    "aadharNumber": 124151234248,
+    "password": "Jhinuk@152"
+  },
+  {
+    "aadharNumber": 123451234247,
+    "password": "Jhinuk@153"
+  },
+  {
+    "aadharNumber": 123415134236,
+    "password": "Jhinuk@154"
+  },
+  {
+    "aadharNumber": 123415124249,
+    "password": "Jhinuk@155"
+  },
+  {
+    "aadharNumber": 123415123451,
+    "password": "Jhinuk@157"
+  },
+  {
+    "aadharNumber": 123415123442,
+    "password": "Jhinuk@158"
+  },
+  {
+    "aadharNumber": 123415123440,
+    "password": "Jhinuk@159"
+  },
+  {
+    "aadharNumber": 123415123438,
+    "password": "Jhinuk@150"
+  },
+  {
+    "aadharNumber": 123415123435,
+    "password": "Jhinuk@15"
+  },
+  {
+    "aadharNumber": 123415123425,
+    "password": "Jhinuk@1511"
+  },
+  {
+    "aadharNumber": 123415123252,
+    "password": "Jhinuk@1522"
+  },
+  {
+    "aadharNumber": 123415123250,
+    "password": "Jhinuk@1533"
+  },
+  {
+    "aadharNumber": 123415123244,
+    "password": "Jhinuk@1544"
+  },
+  {
+    "aadharNumber": 123415124241,
+    "password": "Jhinuk@156"
+  },
+  {
+    "aadharNumber": 123415123239,
+    "password": "Jhinuk@1555"
+  },
+  {
+    "aadharNumber": 123415123237,
+    "password": "Jhinuk@1566"
+  },
+  {
+    "aadharNumber": 123411234246,
+    "password": "Jhinuk@1577"
+  },
+  {
+    "aadharNumber": 123411234245,
+    "password": "Jhinuk@1588"
+  },
+  {
+    "aadharNumber": 123411234243,
+    "password": "Jhinuk@1599"
+  }
+]
+

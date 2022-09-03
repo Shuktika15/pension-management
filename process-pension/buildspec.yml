@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+      java: corretto11
+  pre_build:
+    commands:
+      - mvn clean install
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+      - APPLICATION_NAME=process-pension
+      - APPLICATION_VERSION=1.0
+      - REPOSITORY_URI=860061945305.dkr.ecr.ap-south-1.amazonaws.com/shuktika-process-pension-repository
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building Docker image
+      - docker build -t  $APPLICATION_NAME:$APPLICATION_VERSION .
+      - docker tag $APPLICATION_NAME:$APPLICATION_VERSION $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Created docker images...
+      - docker images
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"shuktika-process-pension-container","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - cat imagedefinitions.json
+      - echo Post build completed
+artifacts:
+  files: imagedefinitions.json

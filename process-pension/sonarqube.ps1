@@ -1,0 +1,1 @@
+mvn sonar:sonar -Dsonar.projectKey=process-pension -Dsonar.host.url=http://localhost:9000 -Dsonar.login=4d96559f1c4d4a4a7a6224f8a2bc8de47d489a1c

@@ -1,0 +1,107 @@
+<div id="home">
+  <div class="container">
+    <nav>
+      <button (click)="logout()" color="accent" mat-flat-button>Logout</button>
+    </nav>
+    <div class="grid">
+      <div class="box box-1">
+        <div class="tile name">
+          <p>{{name}}</p>
+        </div>
+        <div class="tile dateOfBirth">
+          <div class="value">{{dateOfBirth | date}}</div>
+          <div class="trailing baby">
+            <img alt="baby" src="./assets/baby.gif">
+          </div>
+        </div>
+        <div class="tile">
+          <div class="value">Salary Earned</div>
+          <div class="trailing">
+            {{salaryEarned | currency:'INR':'symbol-narrow':'1.0-0'}}
+          </div>
+        </div>
+        <div class="tile">
+          <div class="value">Allowance</div>
+          <div class="trailing">
+            {{allowance | currency:'INR':'symbol-narrow':'1.0-0'}}
+          </div>
+        </div>
+        <div class="tile">
+          <div class="value">Pension Type</div>
+          <div class="trailing">
+            {{convertToTitleCase(pensionType)}}
+          </div>
+        </div>
+      </div>
+      <div class="box box-2">
+        <div class="cards">
+          <div class="card aadhar-card">
+            <div class="header">
+              <div class="name">Aadhar Card</div>
+              <div class="logo">
+                <img alt="aadhar" src="./assets/aadhar.png">
+              </div>
+            </div>
+            <div class="number">
+              <div class="part">{{aadharNumbers()[0]}}</div>
+              <div class="part">{{aadharNumbers()[1]}}</div>
+              <div class="part">{{aadharNumbers()[2]}}</div>
+            </div>
+          </div>
+          <div class="card pan-card">
+            <div class="header">
+              <div class="name">Pan Card</div>
+              <div class="logo">
+                <img alt="aadhar" src="./assets/pan.png">
+              </div>
+            </div>
+            <div class="number">
+              <div class="part">{{panNumber}}</div>
+            </div>
+          </div>
+          <div class="card bank-card">
+            <div class="header">
+              <div class="name">{{bankName}}</div>
+              <div class="logo">
+                <img alt="bank" src="./assets/bank.png">
+                {{bankType}}
+              </div>
+            </div>
+            <div class="number">
+              <div class="part">{{accountNumber}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box box-3">
+        <div
+          (click)="processPension()"
+          [@processPension]="processPensionBtnState"
+          class="process-pension"
+          mat-flat-button
+        >
+          <div></div>
+          <div class="process">
+            <span>Process</span>
+            <span [hidden]="processPensionBtnState !== 'loading'" class="processing">ing</span>
+            <span [hidden]="processPensionBtnState !== 'complete'" class="processed">ed</span>
+          </div>
+          <div [hidden]="processPensionBtnState !== 'initial'" class="pension">Pension</div>
+          <div [@pensionLoader]="processPensionBtnState" class="pension-loader">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div [@pensionDetails]="processPensionBtnState" class="pension-details">
+  <div *ngIf="processPensionResponse" class="pension-amount">
+    <div class="title">&nbsp; Pension Amount</div>
+    <div class="value">{{processPensionResponse!.pensionAmount | currency:'INR':'symbol-narrow':'1.2-2' }}</div>
+    <div class="title">&nbsp; Bank Service Charge</div>
+    <div class="value">{{processPensionResponse!.bankServiceCharge | currency:'INR':'symbol-narrow':'1.0-0' }}</div>
+  </div>
+</div>

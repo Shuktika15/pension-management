@@ -1,0 +1,84 @@
+server:
+  port: ${PORT:8181}
+
+spring:
+  application:
+    name: API-GATEWAY
+  mvc:
+    async:
+      request-timeout: 5000
+  cloud:
+    gateway:
+      routes:
+        - id: authorization
+          uri: lb://AUTHORIZATION
+          predicates:
+            - Path=/authorization/**
+        - id: pension-processing
+          uri: lb://PROCESS-PENSION
+          predicates:
+            - Path=/process-pension/**
+          filters:
+            - name: AuthenticationFilter
+              args:
+                authenticationUrl: lb://AUTHORIZATION
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+
+logging:
+  file:
+    name: /var/logs/api-gateway.log
+    path: /var/logs
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://service-registry:8761/eureka
+
+---
+
+spring:
+  profiles:
+    active: ${PROFILE:dev}
+

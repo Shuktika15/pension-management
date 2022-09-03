@@ -1,0 +1,48 @@
+<div id="login">
+  <div class="container login-form">
+    <header>
+      <span>PENSION</span>
+    </header>
+    <img alt="logo" class="logo" src="./assets/favicon.png">
+    <form (submit)="login()" [formGroup]="loginForm!">
+      <mat-form-field appearance="outline" hideRequiredMarker>
+        <mat-label>Aadhar Number</mat-label>
+        <input
+          formControlName="aadharNumber"
+          id="aadharNumber"
+          mask="0000-0000-0000"
+          matInput
+          name="aadharNumber"
+          required
+          type="text">
+        <mat-error *ngIf="loginForm!.touched && loginForm!.invalid && aadharNumber!.value!.length > 0">Invalid aadhar
+          number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" hideRequiredMarker>
+        <mat-label>Password</mat-label>
+        <input
+          formControlName="password"
+          id="password"
+          matInput
+          name="password"
+          required
+          type="password">
+      </mat-form-field>
+      <button [disabled]="loginForm!.invalid" color="accent" mat-flat-button="" type="submit">Login</button>
+    </form>
+    <mat-error *ngIf="loginError" class="login-error">
+      <mat-icon aria-hidden="false" aria-label="Invalid credentials" fontIcon="error"></mat-icon>
+      {{loginError}}
+    </mat-error>
+    <div *ngIf="isLoading | async" class="loading">
+      <img alt="loading" src="./assets/loading.gif">
+    </div>
+  </div>
+  <div class="container side-image">
+    <header>
+      <span>MANAGEMENT</span>
+    </header>
+    <img alt="old_couple" src="./assets/old_couple.gif">
+  </div>
+</div>
